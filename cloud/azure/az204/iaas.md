@@ -170,6 +170,119 @@ Custom handlers are samll webservers that retrive events from a functions host. 
 https://docs.microsoft.com/en-us/learn/modules/develop-test-deploy-azure-functions-with-visual-studio/
 
 
+# Choose best Azure service 
+
+Business processes modeled in software are often called workflows. Azure includes four different technologies that you can use - [Choose best Azure service](#choose-best-azure-service)to build and implement workflows that integrate multiple systems:
+
+- Logic Apps
+- Microsoft Power Automate
+- WebJobs
+- Azure Functions
+
+These four technologies have some similarities. For example:
+
+- They can all accept **inputs**. An input is a piece of data or a file that is supplied to the workflow.
+- They can all run **actions**. An action is a simple operation that the workflow executes and may often modify data or cause another action to be performed.
+- They can all include **conditions**. A condition is a test, often run against an input, that may decide which action to execute next.
+- They can all produce **outputs**. An output is a piece of data or a file that is created by the workflow.
+
+**Design-first** 
+- Microsoft power automate - End users
+- Logic app - Developers
+
+**Code-First**
+-  Webjobs 
+-  Azure functions
+
+**Webjobs** - Continuous. Run in a continuous loop. For example, you could use a continuous WebJob to check a shared folder for a new photo. 
+
+Triggered. Run when you manually start them or on a schedule.
+
+**Azure** **Functions**
+
+HTTPTrigger. When you want the code to execute in response to a request sent through the HTTP protocol.
+
+TimerTrigger. When you want the code to execute according to a schedule.
+
+BlobTrigger. When you want the code to execute when a new blob is added to an Azure Storage account.
+
+CosmosDBTrigger. When you want the code to execute in response to new or updated documents in a NoSQL database.
+
+![](2021-09-25-21-55-16.png)
+
+
+Decide what to use.
+
+
+![](2021-09-25-21-58-33.png)
+
+Triggers Input and output Binding
+
+![](2021-09-25-22-53-12.png)
+
+
+
+# Durable Function
+
+
+Durable Functions enables you to implement complex **stateful** functions in a serverless-environment.
+
+Durable Functions is an extension of **Azure** **Functions**. Whereas Azure Functions operate in a **stateless** environment, Durable Functions can retain state between function calls. This approach enables you to simplify complex stateful executions in a serverless-environment.
+
+Durable functions allows you to define stateful workflows using an orchestration function. An **orchestration** **function** provides these extra benefits:
+
+THree durable function types: ****Client**, **Orchestrator**, and **Activity**.
+**
+
+## Function Types
+
+Client functions are the entry point for creating an instance of a Durable Functions orchestration. They can run in response to an event from many sources, such as a new HTTP request arriving, a message being posted to a message queue, an event arriving in an event stream. You can write them in any of the supported languages.
+
+Orchestrator functions describe how actions are executed, and the order in which they are run. You write the orchestration logic in code (C# or JavaScript).
+
+Activity functions are the basic units of work in a durable function orchestration. An activity function contains the actual work performed by the tasks being orchestrated.
+
+Application patterns
+- **Function chaining** - In this pattern, the workflow executes a sequence of functions in a specified order. The output of one function is applied to the input of the next function in the sequence. The output of the final function is used to generate a result.
+
+![](2021-09-26-10-30-45.png)
+- **Fan out/fan in** - This pattern runs multiple functions in parallel and then waits for all the functions to finish. The results of the parallel executions can be aggregated or used to compute a final result.
+- 
+![](2021-09-26-10-31-09.png)
+
+
+**Async HTTP APIs** - This pattern addresses the problem of coordinating state of long-running operations with external clients. An HTTP call can trigger the long-running action. Then, it can redirect the client to a status endpoint. The client can learn when the operation is finished by polling this endpoint.
+
+![](2021-09-26-10-32-37.png)
+- **Monitor** - This pattern implements a recurring process in a workflow, possibly looking for a change in state. For example, you could use this pattern to poll until specific conditions are met.
+
+![](2021-09-26-10-33-11.png)
+
+
+**Human interaction** - This pattern combines automated processes that also involve some human interaction. A manual process within an automated process is tricky because people aren't as highly available and as responsive as most computers. Human interaction can be incorporated using timeouts and compensation logic that runs if the human fails to interact correctly within a specified response time. An approval process is an example of a process that involves human interaction.
+
+![](2021-09-26-10-34-33.png)
+
+Comparisons of logic app.
+
+Durable Functions and Logic Apps are both Azure services that enable serverless workload. Azure Durable Functions is intended as a powerful serverless compute option to run custom logic. Azure Logic Apps is better suited for integrating Azure services and components. You can use either technology to create complex orchestrations. With Azure Durable Functions, you develop orchestrations by writing code and using the Durable Functions extension. With Logic Apps, you create orchestrations by using the design surface or editing configuration files.
+
+The following table lists some of the key differences between Azure Durable Functions and Azure Logic Apps.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
