@@ -144,7 +144,7 @@ Function Redux
 Durable functions are an extension that allows for the creation of stateful functions.
 
 Function Chaining
-![](2021-09-25-11-19-11.png)
+![](img/2021-09-25-11-19-11.png)
 
 
 Fanout out/in
@@ -153,18 +153,18 @@ Fanout out/in
 
 Custom handlers are samll webservers that retrive events from a functions host. if the langusage supports http primitives it can use custom handler.
 
-![](2021-09-25-11-23-59.png)
+![](img/2021-09-25-11-23-59.png)
 
-![](2021-09-25-11-34-06.png)
+![](img/2021-09-25-11-34-06.png)
 
 
-![](2021-09-25-17-21-52.png)
+![](img/2021-09-25-17-21-52.png)
 
-![](2021-09-25-17-22-22.png)
+![](img/2021-09-25-17-22-22.png)
 
-![](2021-09-25-17-22-33.png)
+![](img/2021-09-25-17-22-33.png)
 
-![](2021-09-25-17-23-05.png)
+![](img/2021-09-25-17-23-05.png)
 
 
 https://docs.microsoft.com/en-us/learn/modules/develop-test-deploy-azure-functions-with-visual-studio/
@@ -208,17 +208,17 @@ BlobTrigger. When you want the code to execute when a new blob is added to an Az
 
 CosmosDBTrigger. When you want the code to execute in response to new or updated documents in a NoSQL database.
 
-![](2021-09-25-21-55-16.png)
+![](img/2021-09-25-21-55-16.png)
 
 
 Decide what to use.
 
 
-![](2021-09-25-21-58-33.png)
+![](img/2021-09-25-21-58-33.png)
 
 Triggers Input and output Binding
 
-![](2021-09-25-22-53-12.png)
+![](img/2021-09-25-22-53-12.png)
 
 
 
@@ -245,23 +245,23 @@ Activity functions are the basic units of work in a durable function orchestrati
 Application patterns
 - **Function chaining** - In this pattern, the workflow executes a sequence of functions in a specified order. The output of one function is applied to the input of the next function in the sequence. The output of the final function is used to generate a result.
 
-![](2021-09-26-10-30-45.png)
+![](img/2021-09-26-10-30-45.png)
 - **Fan out/fan in** - This pattern runs multiple functions in parallel and then waits for all the functions to finish. The results of the parallel executions can be aggregated or used to compute a final result.
 - 
-![](2021-09-26-10-31-09.png)
+![](img/2021-09-26-10-31-09.png)
 
 
 **Async HTTP APIs** - This pattern addresses the problem of coordinating state of long-running operations with external clients. An HTTP call can trigger the long-running action. Then, it can redirect the client to a status endpoint. The client can learn when the operation is finished by polling this endpoint.
 
-![](2021-09-26-10-32-37.png)
+![](img/2021-09-26-10-32-37.png)
 - **Monitor** - This pattern implements a recurring process in a workflow, possibly looking for a change in state. For example, you could use this pattern to poll until specific conditions are met.
 
-![](2021-09-26-10-33-11.png)
+![](img/2021-09-26-10-33-11.png)
 
 
 **Human interaction** - This pattern combines automated processes that also involve some human interaction. A manual process within an automated process is tricky because people aren't as highly available and as responsive as most computers. Human interaction can be incorporated using timeouts and compensation logic that runs if the human fails to interact correctly within a specified response time. An approval process is an example of a process that involves human interaction.
 
-![](2021-09-26-10-34-33.png)
+![](img/2021-09-26-10-34-33.png)
 
 Comparisons of logic app.
 
@@ -270,13 +270,13 @@ Durable Functions and Logic Apps are both Azure services that enable serverless 
 The following table lists some of the key differences between Azure Durable Functions and Azure Logic Apps.
 
 
-|Task|Azure Durable Functions|Azure Logic Apps|
-|--- |--- |--- |
-|Development|Code-first (imperative)|Design-first (declarative)|
-|Connectivity|About a dozen built-in binding types. You can write code for custom bindings.|Large collection of connectors. Enterprise Integration Pack for B2B. You can also build custom connectors.|
-|Actions|Each activity is an Azure Function. You write the code for activity functions.|Large collection of ready-made actions. You integrate custom logic through custom connectors.|
-|Monitoring|Azure Application Insights|Azure portal,  Azure Monitor logs|
-|Management|REST API, PowerShell, Visual Studio|Azure portal,  REST API,  PowerShell,  Visual Studio, Visual Studio Code extension|
+| Task         | Azure Durable Functions                                                        | Azure Logic Apps                                                                                           |
+| ------------ | ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| Development  | Code-first (imperative)                                                        | Design-first (declarative)                                                                                 |
+| Connectivity | About a dozen built-in binding types. You can write code for custom bindings.  | Large collection of connectors. Enterprise Integration Pack for B2B. You can also build custom connectors. |
+| Actions      | Each activity is an Azure Function. You write the code for activity functions. | Large collection of ready-made actions. You integrate custom logic through custom connectors.              |
+| Monitoring   | Azure Application Insights                                                     | Azure portal,  Azure Monitor logs                                                                          |
+| Management   | REST API, PowerShell, Visual Studio                                            | Azure portal,  REST API,  PowerShell,  Visual Studio, Visual Studio Code extension                         |
 
 
 
