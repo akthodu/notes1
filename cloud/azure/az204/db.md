@@ -25,13 +25,24 @@ each collectionid has partition key
 -  The partiton key and item ID helps to create the item index which helps to uniquely identify the item.
 
 **API**
-Core SQL, MongoDB, Cassandra, Azure table, Gremlin
+- Core SQL - SQL API- Called Documents
+- MongoDB
+- Cassandra
+- Azure table - Table API - Called Entities
+- Gremlin
 
 Cassandra - Column based structure.
 Gremlin - Graph based structure.
 
 SQL API. 
 in a database, we have container. Container is nothing but a table.
+
+Table API
+- Partition Key and Row Key
+- Partition key - property used to partition data.
+- Rowkey - property used to uniquely identify data.
+  
+
 
 # **Create cosmos DB using Azure CLI**
 
@@ -41,6 +52,18 @@ Ex:
 ```
 az cosmosdb create --name <cosmosdbname> --resource-group <resourcegroup-name> --default-consistency-level Eventual --kind GlobalDocumentDB
 ```
+
+# Consistency levels
+
+Replica sets
+- Strong
+- Bounded Staleness
+- Session
+- Conistent Prfix
+-  Eventual
+
+![](2021-09-26-14-27-29.png)
+
 
 
 
