@@ -1,5 +1,34 @@
 # Azure Services
-- **Event Grid** 
+
+# Azure API Management Services
+
+
+**API Gateway**
+- Accept API calls and route them to backends
+- Verifies API Keys, JWT Tokens , Certificates and other credentials.
+- Enforce quotas and rate limits.
+- Transform API on fly without any code modifications.
+- Caches Backednd and logs call metadata for anlytics purpose.
+
+There are two  Portals 
+  1. **Azure portal**  
+   - For administrative purpose. Define or import API Schema. 
+   - Package API into the products. 
+   - Setup policies like quotas or transformations on the APIs
+  2.  **Developer portal**
+   - Read API Documentation
+   - Try out an API via interactive console
+   - Create an account and subscribe to get API keys
+   - Access analytics for own usage.
+   
+*Product* has set of APIs which has product, title and description and terms of use. It can be open or protected. If protected, Needs subscription before using.
+
+**Groups**
+- **Administrator** - Manage API Management service instances, create the APIs, operations and products that are used by the developers.
+- **Developers** - The users in this group will have access to developer portal.
+- **Guests** - These are the users who wan to view APIs.
+  
+**Event Grid** 
    - Events - What happened.
    - Event sources - Where the event took place.
    - Topics - The endpoint where publishers send events.
