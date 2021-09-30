@@ -64,6 +64,82 @@ Replica sets
 
 ![](2021-09-26-14-27-29.png)
 
+**Create containers using Command line**
+
+
+You can create multiple physical parittions based on couple of factors.
+ Throughput settings: each partition allows for 10k ru/s
+ Storage: Each partition has maz size of 50 GB.
+
+
+
+
+ # Storage accounts
+
+ - **General purpose V2** - Blob, File, Table and queue
+ - **General purpose V1** - Legacy
+ - **Block blob storage accounts** - these are the storage accounts that provide premium performance when it comes to storing block and appened blobs.
+ -  **File storage accounts** -  These are storage accounts that provide permium performance when it comes to storing files.
+ -  **BlockStorage accounts** - This is a legacy blob-only storage accounts
+  
+  **General Purpose v2 account - Blob service** - This is used to store images, audio, video and unstructured data
+
+  **General purpose V2 account - File storage** - This is used to create file share can be accessed via SMB protocol. You can mount on windows oS.
+
+   **General purpose V2 Account - Table service** - NoSQL Data in the cloud
+   - Ideal for the storage accessed by the web applications.
+   - it is ideal for datasets that will not require complex joins.
+  
+**General purpose V2 Account - Queue service** - This is a service that can be used to storing large number of messages to be shared across the component of the application
+
+
+# Azure CLI with blob storage
+
+```
+az storage account create --name <Account-NAME> --resource-group <RESOURCE-GROUP-NAME> --location EastUS --sku Standard_LRS 
+
+az storage container create --account-name <Account-NAME> --name data
+
+echo This is a sample html file > sample.html
+
+az storage blob upload --account-name <Account-NAME> --container-name data --name sample.html --file sample.html
+
+az storage container set-permission --account-name <Account-NAME> --name data --public-access blob
+
+az storage blob list --account-name <Account-NAME> --container-name data  --output table
+
+az storage blob download --account-name <Account-NAME> --container-name data --name sample.html --file sample2.html
+```
+
+Download AZcopy Binary: https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10
+
+
+**AZ Copy Commands**
+
+```
+az login --tenant-id=<tenant-id>
+azcopy make "https://<Storage-account-name>.blob.core.windows.net/<container-name>"
+
+az copy <source> <destination>
+
+azcopy copy "dummy.html" "https://<Storage-account-name>.blob.core.windows.net/<container-name>/dummy1.html"
+
+azcopy copy "https://<Storage-account-name>.blob.core.windows.net/<container-name>/dummy1.html" "dummy2.html"
+```
+
+# Data Retention and archival
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,3 +1,11 @@
+
+Install powershell
+
+
+https://github.com/PowerShell/PowerShell
+
+in Read Me --> Download required binary
+
 Manage your systems.
 
 1. Path
