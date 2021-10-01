@@ -10,7 +10,7 @@
 - Transform API on fly without any code modifications.
 - Caches Backednd and logs call metadata for anlytics purpose.
 
-There are two  Portals 
+There are <span style="color:red">two</span>  Portals 
   1. **Azure portal**  
    - For administrative purpose. Define or import API Schema. 
    - Package API into the products. 
@@ -28,7 +28,29 @@ There are two  Portals
 - **Developers** - The users in this group will have access to developer portal.
 - **Guests** - These are the users who wan to view APIs.
   
-**Event Grid** 
+*Pricing Details*
+  - Developer, basic and standard
+
+
+Create a blank API, Add a Frontend operation
+Front end operation comes before input operation.
+
+* operations: Frontend, Input and output operations.
+Backend HTTP endpoint
+
+## Management Policies
+- Collection of the statemnets which can be applied to request or response of a API.
+- There are different types of policies. 
+  
+#### **Access Restriction Policies**
+- Ensure that the header contains particular value.
+- Limit the call rate.
+- Rstrict IPs
+
+Authenticate an API call with a certificate, control the flow based on boolean expressions. Transformation policies like converting JSON to XML
+
+
+# **Event Grid** 
    - Events - What happened.
    - Event sources - Where the event took place.
    - Topics - The endpoint where publishers send events.
@@ -39,7 +61,7 @@ There are two  Portals
 ![](2021-09-29-12-33-11.png)
 
 
-- **Event hub**
+  # **Event hub**
 -  Protocol HTTP and AMQP
 -  Code Send events to and receive events from Azure Event Hubs - .NET 
 -  
