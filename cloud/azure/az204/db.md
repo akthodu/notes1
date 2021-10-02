@@ -53,6 +53,31 @@ Ex:
 az cosmosdb create --name <cosmosdbname> --resource-group <resourcegroup-name> --default-consistency-level Eventual --kind GlobalDocumentDB
 ```
 
+
+```
+# Set variables for the new SQL API account, database, and container
+resourceGroupName='myResourceGroup'
+location='southcentralus'
+
+# The Azure Cosmos account name must be globally unique, so be sure to update the `mysqlapicosmosdb` value before you run the command
+accountName='mysqlapicosmosdb'
+
+# Create a resource group
+az group create \
+    --name $resourceGroupName \
+    --location $location
+
+# Create a SQL API Cosmos DB account with session consistency and multi-region writes enabled
+az cosmosdb create \
+    --resource-group $resourceGroupName \
+    --name $accountName \
+    --kind GlobalDocumentDB \
+    --locations regionName="South Central US" failoverPriority=0 --locations regionName="North Central US" failoverPriority=1 \
+    --default-consistency-level "Session" \
+    --enable-multiple-write-locations true
+```
+
+
 # Consistency levels
 
 Replica sets
@@ -87,7 +112,58 @@ Classes related to cosmos
 8. response.RequestCharge
 9. Customer obj = (customer)response; [obj.id, obj.customername,obj.customercity]
 ```
-# Stored Prodc
+# Stored Procedure
+ ***context object*** provides access to all operations that can be performed in Azure Cosmos DB, as well as access to the request and response objects. 
+
+```
+var helloWorldStoredProc = {
+    id: "helloWorld",
+    serverScript: function () {
+        var context = getContext();
+        var response = context.getResponse();
+
+        response.setBody("Hello, World");
+    }
+}
+# calling stored procedure
+
+ var procs = container.Scripts;
+var key = new PartitionKey(string.Empty);
+ var result=await procs.ExecuteStoredProcedureAsync<string>("starter",key, null);
+starter is name of the stored proc.
+   dynamic[] newItems = new dynamic[]
+                    {
+                    new {
+                    id = "10",
+                    city = "Chicago",
+                    customername="Joe"                    
+                        }
+                    };
+var key = new PartitionKey("Joe");
+var result = await procs.ExecuteStoredProcedureAsync<string>("newitem", key, newItems);
+Console.WriteLine(result.Resource);
+newitem is name of the stored proc
+
+# new item store proc
+function createToDoItem(itemToCreate) {
+
+    var context = getContext();
+    var container = context.getCollection();
+
+    var accepted = container.createDocument(container.getSelfLink(),
+        itemToCreate,
+        function (err, itemCreated) {
+            if (err) throw new Error('Error' + err.message);
+            context.getResponse().setBody(itemCreated.id)
+        });
+    if (!accepted) return;
+```
+
+### Trigger
+
+Azure Cosmos DB supports pre-triggers and post-triggers. Pre-triggers are executed before modifying a database item and post-triggers are executed after modifying a database item. Triggers are not automatically executed, they must be specified for each database operation where you want them to execute. 
+
+
 
 ### Change Feed
 - It will listens to all changes with in a particular container.
@@ -165,7 +241,7 @@ azcopy copy "https://<Storage-account-name>.blob.core.windows.net/<container-nam
 
 
 
-
+zz
 
 
 
