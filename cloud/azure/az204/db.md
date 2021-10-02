@@ -87,7 +87,6 @@ Replica sets
 - Conistent Prfix
 -  Eventual
 
-![](2021-09-26-14-27-29.png)
 
 
 https://docs.microsoft.com/en-us/azure/cosmos-db/sql/sql-api-dotnet-application
@@ -115,7 +114,9 @@ Classes related to cosmos
 ```
 # Stored Procedure
  ***context object*** provides access to all operations that can be performed in Azure Cosmos DB, as well as access to the request and response objects. 
-
+- Store proc can be used to perform an operation on a cosmos DB
+- It is written in java script.
+- Registered and executed against collection and runs as a single transcation.
 ```
 var helloWorldStoredProc = {
     id: "helloWorld",
@@ -184,14 +185,6 @@ await container.CreateItemAsync(customer, null, new ItemRequestOptions { PreTrig
 - Gives a sorted list of documents that were changed in the order in which they are modified.
 - There is no support for table API. Filter change feed based on certain type of operation.
 - it will not log deletes. to capture delete we must have soft-delete flag set.
-
-### Stored Procedure
-
-- Store proc can be used to perform an operation on a cosmos DB
-- It is written in java script.
-- Registered and executed against collection and runs as asingle transcation.
-- 
-
 
  # Storage accounts
 
