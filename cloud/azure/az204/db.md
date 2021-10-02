@@ -64,6 +64,9 @@ Replica sets
 
 ![](2021-09-26-14-27-29.png)
 
+
+https://docs.microsoft.com/en-us/azure/cosmos-db/sql/sql-api-dotnet-application?WT.mc_id=thomasmaurer-blog-thmaure#set-up-the-mvc-application
+
 **Create containers using Command line**
 
 
@@ -71,7 +74,33 @@ You can create multiple physical parittions based on couple of factors.
  Throughput settings: each partition allows for 10k ru/s
  Storage: Each partition has maz size of 50 GB.
 
+```
+Classes related to cosmos
+1. New cosmos client  Cosmosclient db= new CosmosClient(endpoint, accountkeys)
+2. Database db= client.GetDatabase(databaseid)
+3. Container container = db.GetContainer(containerid)
+4. Itemresponse<Customer> response = await container.ReadItemsAsync<Customer>(partitionkey, id) --  **reading**
+5. Itemresponse<Customer> response = await container.CreateItemsAsync(obj) -- **Write.**
+6. Itemresponse<Customer> response = await container.ReplaceItemsAsync(id:obj.id,item:obj); -**Replace**
+7.  ItemResponse<Customer> response = await container.DeleteItemAsync<Customer>(
+                    partitionKey: new PartitionKey("New York"), -- **Delete**
+8. response.RequestCharge
+9. Customer obj = (customer)response; [obj.id, obj.customername,obj.customercity]
+```
+# Stored Prodc
 
+### Change Feed
+- It will listens to all changes with in a particular container.
+- Gives a sorted list of documents that were changed in the order in which they are modified.
+- There is no support for table API. Filter change feed based on certain type of operation.
+- it will not log deletes. to capture delete we must have soft-delete flag set.
+
+### Stored Procedure
+
+- Store proc can be used to perform an operation on a cosmos DB
+- It is written in java script.
+- Registered and executed against collection and runs as asingle transcation.
+- 
 
 
  # Storage accounts

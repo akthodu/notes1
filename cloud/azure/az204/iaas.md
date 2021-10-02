@@ -1,10 +1,14 @@
 
 Install powershell
 
+- Get-Module  -Name AZ -ListAvailable --> list of AZ modules available
+- update-Module -name AZ  --> Update existing AZ module
+- Install-Module -name AZ  --> Install AZ Module
 
 https://github.com/PowerShell/PowerShell
 
 in Read Me --> Download required binary
+
 
 Manage your systems.
 
