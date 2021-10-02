@@ -90,7 +90,8 @@ Replica sets
 ![](2021-09-26-14-27-29.png)
 
 
-https://docs.microsoft.com/en-us/azure/cosmos-db/sql/sql-api-dotnet-application?WT.mc_id=thomasmaurer-blog-thmaure#set-up-the-mvc-application
+https://docs.microsoft.com/en-us/azure/cosmos-db/sql/sql-api-dotnet-application
+
 
 **Create containers using Command line**
 
@@ -163,6 +164,19 @@ function createToDoItem(itemToCreate) {
 
 Azure Cosmos DB supports pre-triggers and post-triggers. Pre-triggers are executed before modifying a database item and post-triggers are executed after modifying a database item. Triggers are not automatically executed, they must be specified for each database operation where you want them to execute. 
 
+```
+Trigger:
+function trigger(){
+var context=getContext();
+var request=context.getRequest();
+var doc=request.getBody();
+
+doc["type"]="New Customer";
+request.setBody(doc);
+}
+
+await container.CreateItemAsync(customer, null, new ItemRequestOptions { PreTriggers = new List<string> { "demotrigger" } });
+```
 
 
 ### Change Feed
@@ -220,6 +234,7 @@ Download AZcopy Binary: https://docs.microsoft.com/en-us/azure/storage/common/st
 
 
 **AZ Copy Commands**
+
 
 ```
 az login --tenant-id=<tenant-id>
