@@ -250,13 +250,126 @@ azcopy copy "https://<Storage-account-name>.blob.core.windows.net/<container-nam
 # Data Retention and archival
 
 
+# Create Blob Container programatically
+
+Packages: Azure.storage.blobs and azure.storage.blobs.models
+
+Connection string: 
+
+```
+BlobServiceClient blobServiceClient = new BlobServiceClient(connstring);
+
+#Create Blobcontainer
+BlobContainerClient containerClient = await blobServiceClient.**CreateBlobContainerAsync**(containerName);
+
+# Get handle for new blob in the container
+BlobClient blobClient = containerClient.GetBlobClient(blobfilename);
+
+#Upload the local file to a file stream
+using FileStream uploadFileStream = File.OpenRead(filepath);
+
+#upload the blob to container.
+await blobClient.**UploadAsync**(uploadFileStream, true);
+uploadFileStream.Close();
 
 
 
+#List blobs
+BlobServiceClient blobServiceClient = new BlobServiceClient(connstring);
+BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
+
+ await foreach (BlobItem blobItem in containerClient.GetBlobsAsync())
+            {
+                Console.WriteLine("\t" + blobItem.Name);
+            }
+
+#Download blob
+BlobServiceClient blobServiceClient = new BlobServiceClient(connstring);
+BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
+BlobClient blob = containerClient.GetBlobClient(filename);
+BlobDownloadInfo blobdata = await blob.DownloadAsync();
+
+ using (FileStream downloadFileStream = File.OpenWrite(downloadpath))
+            {
+                await blobdata.Content.CopyToAsync(downloadFileStream);
+                downloadFileStream.Close();
+            }
 
 
+```
 
-zz
+
+# Programatically manage Storage Properties
+
+```
+
+# Create a connection to the storage account
+ BlobServiceClient blobServiceClient = new BlobServiceClient(connstring);
+
+# Get a handle to an existing container
+ BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
+
+# Get a handle to the blob
+ BlobClient blob = containerClient.GetBlobClient(filename);
+
+#Get the Blob properties
+BlobProperties properties=blob.GetProperties();
+Console.WriteLine("The Content Type is {0}",properties.ContentType);
+Console.WriteLine("The Content Length is {0}", properties.ContentLength);
+
+
+#Get the metadata properties
+foreach(var metadata in properties.Metadata)
+            {
+                Console.WriteLine(metadata.Key.ToString());
+                Console.WriteLine(metadata.Value.ToString());
+            }
+
+# set the metadata properties
+# Create an IDictionary object with the required values
+
+IDictionary<string, string> metadata = new Dictionary<string, string>();
+metadata.Add(key, value);
+
+#Set the metadata properties
+await blob.SetMetadataAsync(metadata);
+```
+
+
+## SAS URL Programming
+
+```
+# Get Shared access signature.
+BlobSasBuilder sasBuilder = new BlobSasBuilder()
+            {
+                BlobContainerName = containerName,
+                BlobName = blobname,
+                Resource = "b",
+                StartsOn = DateTimeOffset.UtcNow,
+                ExpiresOn = DateTimeOffset.UtcNow.AddHours(1) // The SAS is only valid for an hour
+            };
+
+# specify the read permissions for the blob
+sasBuilder.SetPermissions(BlobSasPermissions.Read);
+
+#Create an object of StorageSharedKeyCredential using the account name and account key
+ var storageSharedKeyCredential = new StorageSharedKeyCredential(accountname,accountkey);
+
+ #get the SAS token
+ string sasToken = sasBuilder.ToSasQueryParameters(storageSharedKeyCredential).ToString();
+
+ #Build the full URI to the Blob SAS
+      UriBuilder fullUri = new UriBuilder()
+            {
+                Scheme = "https",
+                Host = string.Format("{0}.blob.core.windows.net", accountname),
+                Path = string.Format("{0}/{1}", containerName, blobname),
+                Query = sasToken
+            };
+
+
+```
+
 
 
 
