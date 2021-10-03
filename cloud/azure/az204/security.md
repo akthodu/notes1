@@ -50,7 +50,7 @@ using Microsoft.Azure.Services.AppAuthentication;
 AzureServiceTokenProvider provider = new AzureServiceTokenProvider();
 var client = new KeyVaultClient(
           new KeyVaultClient.AuthenticationCallback(provider.KeyVaultTokenCallback));
-var secret = await w_client.GetSecretAsync(Demo_secret)
+var secret = await client.GetSecretAsync(Demo_secret)
                 .ConfigureAwait(false);
  Console.WriteLine(secret.Value)
 ```
