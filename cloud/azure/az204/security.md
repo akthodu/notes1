@@ -40,3 +40,17 @@ var client = new KeyClient(vaultUri: new Uri(lab_vault), credential: new Default
 #Get the value of the secret
 KeyVaultKey kv = client.GetKey("testkey");
 ```
+
+### Managed Security Identity
+
+```
+using Microsoft.Azure.KeyVault;
+using Microsoft.Azure.Services.AppAuthentication;
+
+AzureServiceTokenProvider provider = new AzureServiceTokenProvider();
+var client = new KeyVaultClient(
+          new KeyVaultClient.AuthenticationCallback(provider.KeyVaultTokenCallback));
+var secret = await w_client.GetSecretAsync(Demo_secret)
+                .ConfigureAwait(false);
+ Console.WriteLine(secret.Value)
+```
