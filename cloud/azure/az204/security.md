@@ -35,7 +35,8 @@ Console.ReadKey();
 ### Access Keys programatically
 
 ```
-  var client = new KeyClient(vaultUri: new Uri(lab_vault), credential: new DefaultAzureCredential());
-    #Get the value of the secret
-   KeyVaultKey kv = w_client.GetKey("testkey");
-``
+var client = new KeyClient(vaultUri: new Uri(lab_vault), credential: new DefaultAzureCredential());
+
+#Get the value of the secret
+KeyVaultKey kv = client.GetKey("testkey");
+```
