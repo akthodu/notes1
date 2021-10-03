@@ -87,8 +87,6 @@ Replica sets
 - Conistent Prfix
 -  Eventual
 
-
-
 https://docs.microsoft.com/en-us/azure/cosmos-db/sql/sql-api-dotnet-application
 
 

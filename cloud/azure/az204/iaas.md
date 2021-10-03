@@ -288,7 +288,23 @@ The following table lists some of the key differences between Azure Durable Func
 | Connectivity | About a dozen built-in binding types. You can write code for custom bindings.  | Large collection of connectors. Enterprise Integration Pack for B2B. You can also build custom connectors. |
 | Actions      | Each activity is an Azure Function. You write the code for activity functions. | Large collection of ready-made actions. You integrate custom logic through custom connectors.              |
 | Monitoring   | Azure Application Insights                                                     | Azure portal,  Azure Monitor logs                                                                          |
-| Management   | REST API, PowerShell, Visual Studio                                            | Azure portal,  REST API,  PowerShell,  Visual Studio, Visual Studio Code extension                         |
+| Management   | REST API, PowerShell, Visual Studio                                            | Azure portal,  REST API,  PowerShell,  Visual Studio, Visual Studio Code extension   
+
+                     |
+
+
+
+
+```
+az vm list-sizes --location
+az vm image list --output table
+``` 
+#Create VM
+
+>>az vm create -n <resource-group>
+
+>> az vm [start|stop|deallocate|restart|redeploy|delete] --resource-group <Resourcegroup-name> --name <VM-NAME>
+
 
 
 
