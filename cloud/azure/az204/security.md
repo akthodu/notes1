@@ -54,3 +54,22 @@ var secret = await client.GetSecretAsync(Demo_secret)
                 .ConfigureAwait(false);
  Console.WriteLine(secret.Value)
 ```
+
+
+####  OWIN Authenticaiton challenege
+
+```
+Install-Package Microsoft.Owin.Security.OpenIdConnect
+Install-Package Microsoft.Owin.Security.Cookies
+Install-Package Microsoft.Owin.Host.SystemWeb
+
+public void SignIn()
+{
+    if (!Request.IsAuthenticated)
+    {
+        HttpContext.GetOwinContext().Authentication.Challenge(
+            new AuthenticationProperties{ RedirectUri = "/" },
+            OpenIdConnectAuthenticationDefaults.AuthenticationType);
+    }
+}
+```
