@@ -53,7 +53,7 @@ VS code or virtual studio
 - tenant based deploymenets
 
 
-$schema - controls the zure template version youll be using to deploy from. 
+$schema - controls the azure template version youll be using to deploy from. 
 
 contenet version is a value you define that helps keep track of the completed tempale version.
 
@@ -73,8 +73,110 @@ Five optional elements
 
 https://docs.microsoft.com/en-us/learn/modules/control-and-organize-with-azure-resource-manager/
 
+```
+New-AzResourceGroup `
+  -Name myResourceGroup `
+  -Location "Central US"
 
-Containers
+# Pass parameters from command line
+ New-AzResourceGroupDeployment -name addnameparameter -TemplateFile C:\Users\anil\Desktop\notes\notes1\cloud\azure\az204\azuredeploy.json  -storageName read456  -ResourceGroupName rg-fe
+
+
+# 
+ New-AzResourceGroupDeployment -name addnameparameter -TemplateFile C:\Users\anil\Desktop\notes\notes1\cloud\azure\az204\azuredeploy.json  -storageName read456  -ResourceGroupName rg-fe
+
+
+```
+
+### Azure CLI
+
+```
+#deploy to  management group
+az deployment mg create --location <location> --template-file <path-to-template>
+
+#deploy to  subscription group
+az deployment sub create --location <location> --template-file <path-to-template>
+
+# Deployment to resource group
+az deployment group create --resource-group <resource-group-name> --template-file <path-to-template>
+
+```
+
+```
+az vm list-sizes --location
+az vm image list --output tablep
+``` 
+#Create VM
+
+>>az vm create -n <resource-group>
+
+>> az vm [start|stop|deallocate|restart|redeploy|delete] --resource-group <Resourcegroup-name> --name <VM-NAME>
+
+**Powershell to create a VM**
+
+```
+$cred = Get-Credential
+
+# Create a VM
+New-AzVm `
+    -ResourceGroupName "myResourceGroupVM" `
+    -Name "myVM" `
+    -Location "EastUS" `
+    -VirtualNetworkName "myVnet" `
+    -SubnetName "mySubnet" `
+    -SecurityGroupName "myNetworkSecurityGroup" `
+    -PublicIpAddressName "myPublicIpAddress" `
+    -Credential $cred
+
+# Get Marketplace images
+
+Get-AzVMImagePublisher -Location "EastUS"
+
+# Available VM sizes
+Get-AzVMSize -Location "EastUS"
+
+
+Stop-AzVM `
+   -ResourceGroupName "myResourceGroupVM" `
+   -Name "myVM" -Force
+$vm = Get-AzVM `
+   -ResourceGroupName "myResourceGroupVM"  `
+   -VMName "myVM"
+$vm.HardwareProfile.VmSize = "Standard_E2s_v3"
+Update-AzVM -VM $vm `
+   -ResourceGroupName "myResourceGroupVM"
+Start-AzVM `
+   -ResourceGroupName "myResourceGroupVM"  `
+   -Name $vm.name
+
+# Delete resource group
+Remove-AzResourceGroup `
+   -Name "myResourceGroupVM" `
+   -Force
+# RDP
+Get-AzRemoteDesktopFile -ResourceGroupName "RgName" -Name "VmName" -LocalPath "C:\Path\to\folder"
+
+# Linux VM
+
+az vm create --name VMname --resource-group RGname --image UbuntuLTS --generate-ssh-keys
+
+Use existing keys
+
+az vm create \
+  --resource-group myResourceGroup \
+  --name myVM \
+  --image UbuntuLTS \
+  --admin-username azureuser \
+  --ssh-key-values mysshkey.pub
+
+```
+
+
+## Containers
+
+**Azure container registry** - There are 3 pricing options.
+![](2021-10-04-14-56-21.png)
+
 Create containers using azure cli command.
 
 Azure CLI: az container create
@@ -130,6 +232,12 @@ Functions can be run as their own or it can be run as webapp service plan.
 Webappsevice plan
 webapp or webapp service
 Deploy code.
+
+
+```
+# deploy zip pacakge in webapp
+az webapp deploy --resource-group <group-name> --name <app-name> --src-path <zip-package-path>
+```
 
 Functions are essentially just big IF this then do that statement that are really powerful and can work across azure services.
 
@@ -295,15 +403,7 @@ The following table lists some of the key differences between Azure Durable Func
 
 
 
-```
-az vm list-sizes --location
-az vm image list --output table
-``` 
-#Create VM
 
->>az vm create -n <resource-group>
-
->> az vm [start|stop|deallocate|restart|redeploy|delete] --resource-group <Resourcegroup-name> --name <VM-NAME>
 
 
 
