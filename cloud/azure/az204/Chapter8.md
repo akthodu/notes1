@@ -34,6 +34,11 @@ Example: Create a .net webapp. and configure Azure CDN Profile.
 
 https://docs.microsoft.com/en-us/azure/azure-cache-for-redis/cache-web-app-howto
 
+
+```
+# Deploy redis cache
+New-AzRedisCache -ResourceGroupName myGroup -Name mycache -Location "North Central US" -RedisConfiguration @{"maxmemory-policy" = "allkeys-random", "notify-keyspace-events" = "KEA"}
+```
 ```
 ##CacheSecrets.config
 <appSettings>

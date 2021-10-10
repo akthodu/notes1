@@ -319,7 +319,7 @@ az webapp deploy --resource-group <group-name> --name <app-name> --src-path <zip
 
 ```
 # Set the value using azure CLI
-az webapp config appsettings set --name <app-name> --resource-group <resource-group-name> --settings <setting-name>="<value>"
+az webapp config appsettings set --name <app-name> --resource-group <resource+-group-name> --settings <setting-name>="<value>"
 
 # List the setting in webapp.
 az webapp config appsettings list --name <app-name> --resource-group <resource-group-name>
