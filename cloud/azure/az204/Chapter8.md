@@ -34,6 +34,56 @@ Example: Create a .net webapp. and configure Azure CDN Profile.
 
 https://docs.microsoft.com/en-us/azure/azure-cache-for-redis/cache-web-app-howto
 
+```
+##CacheSecrets.config
+<appSettings>
+    <add key="CacheConnection" value="<host-name>,abortConnect=false,ssl=true,allowAdmin=true,password=<access-key>"/>
+</appSettings>
+
+##App.config
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <startup> 
+        <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.7.2" />
+    </startup>
+
+    <appSettings file="C:\AppSecrets\CacheSecrets.config"></appSettings>
+</configuration>
+
+###
+using StackExchange.Redis;
+using System.Configuration;
+
+## Program.cs
+private static Lazy<ConnectionMultiplexer> lazyConnection = CreateConnection();
+
+public static ConnectionMultiplexer **Connection**
+{
+    get
+    {
+        return lazyConnection.Value;
+    }
+}
+
+private static Lazy<ConnectionMultiplexer> CreateConnection()
+{
+    return new Lazy<ConnectionMultiplexer>(() =>
+    {
+        string cacheConnection = ConfigurationManager.AppSettings["CacheConnection"].ToString();
+        return ConnectionMultiplexer.Connect(cacheConnection);
+    });
+}
+
+
+###
+IDatabase  cache = connection.GetDatabase();
+cache.StringSet("Message","This is custom Message")
+cache.StringGet("Message");
+
+```
+
+
+
 
 
 ## Application Insights

@@ -1,5 +1,19 @@
 # Cosmos
 
+ Azure Cosmos DB stores data in atom-record-sequence (ARS) format
+
+five different consistency levels
+
+strong, bounded staleness, session, consistent prefix, and eventual
+
+
+**Core SQL API**
+- Traditional No SQL Document Store
+
+**Azure Table API** - 
+Azure Cosmos DB's Azure Table API provides support for applications that are written for Azure Table Storage that need premium capabilities like global distribution, high availability, scalable throughput. The original Table API only allows for indexing on the Partition and Row keys; there are no secondary indexes. Storing table data in Cosmos DB automatically indexes all the properties, and requires no index management.
+
+
 SQL API
 
 You can create multiple databases in cosmos DB account.
@@ -98,6 +112,7 @@ You can create multiple physical parittions based on couple of factors.
  Storage: Each partition has maz size of 50 GB.
 
 ```
+Packages  Microsoft.Azure.Cosmos or azure.cosmos
 Classes related to cosmos
 1. New cosmos client  Cosmosclient db= new CosmosClient(endpoint, accountkeys)
 2. Database db= client.GetDatabase(databaseid)
@@ -183,6 +198,13 @@ await container.CreateItemAsync(customer, null, new ItemRequestOptions { PreTrig
 - Gives a sorted list of documents that were changed in the order in which they are modified.
 - There is no support for table API. Filter change feed based on certain type of operation.
 - it will not log deletes. to capture delete we must have soft-delete flag set.
+
+
+# Copy Commands
+
+1. Azuer CLI --> Used to upload or copy contents from local or container to container. It is sync process
+2. Azcopy - It is async process. used to copy large files from local to container.
+3. .net library - Avantage. To copy contents based on time stamp.
 
  # Storage accounts
 
@@ -361,8 +383,30 @@ sasBuilder.SetPermissions(BlobSasPermissions.Read);
 
 ```
 
+**.Net 12 SDK**
+
+```
+using Azure.Storage;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using Azure.Storage.Sas;
+```
+
+```
+BlobContainerClient container = await blobServiceClient.CreateBlobContainerAsync(containerName);
+
+#Create Containers
+CreateBlobContainer("$root") --> Creates new root container
+CreateBlobContainerAsync(containername) --> Creates new container
 
 
+#Get Blob Container connection.
+blobserviceClient.GetBlobContainerClient(containerName)
+
+container.DeleteAsync();
+
+
+```
 
 
 

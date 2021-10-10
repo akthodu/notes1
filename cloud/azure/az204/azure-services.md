@@ -1,7 +1,10 @@
 # Azure Services
 
 # Azure API Management Services
-
+- Define or import the API schema.
+- Package API into the products.
+- Each Product has a title, description and terms to use.
+- 
 
 **API Gateway**
 - Accept API calls and route them to backends
@@ -49,6 +52,7 @@ Backend HTTP endpoint
 
 Authenticate an API call with a certificate, control the flow based on boolean expressions. Transformation policies like converting JSON to XML
 
+![](2021-10-06-14-08-59.png)
 
 # **Event Grid** 
    - Events - What happened.
@@ -75,6 +79,38 @@ https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-dotnet-standard-get
 
 # Application Messaging
 - Azure storage queue
+
+```
+using System; // Namespace for Console output
+using System.Configuration; // Namespace for ConfigurationManager
+using System.Threading.Tasks; // Namespace for Task
+using Azure.Storage.Queues; // Namespace for Queue storage types
+using Azure.Storage.Queues.Models; // Namespace for PeekedMessage
+```
+
+
+
+```
+QueueClient queueClient = new QueueClient(connectionString, queueName);
+
+#Send Message
+queueClient.SendMessage(message);
+
+#Peek Message
+ PeekedMessage[] peekedMessage = queueClient.PeekMessages();
+
+#Receive Message
+QueueMessage[] message = queueClient.ReceiveMessages();
+
+#Update Message Contets
+queueClient.UpdateMessage(message[0].MessageId, 
+                message[0].PopReceipt, 
+                "Updated contents",
+                TimeSpan.FromSeconds(60.0)  // Make it invisible for another 60 seconds
+            );
+queueClient.DeleteMessage
+```
+
 - **Azure service bus**- It has namespace. Which should be unique. it has Basic, Standard and Premium
 
 

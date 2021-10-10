@@ -171,7 +171,8 @@ az vm create \
 
 ```
 
-
+**Important**
+https://docs.microsoft.com/en-us/learn/paths/deploy-manage-resource-manager-templates/
 ## Containers
 
 **Azure container registry** - There are 3 pricing options.
@@ -181,7 +182,67 @@ Create containers using azure cli command.
 
 Azure CLI: az container create
 Powershell: New-AZcontainer
+```
+ACR_NAME=<Registry-Name>
+# Create Group
+az group create --resource-group $RES_GROUP --location eastus
 
+# Create Container registry
+az acr create --resource-group $RES_GROUP --name $ACR_NAME --sku Standard --location eastus
+
+
+#Build an image
+az acr build --registry $ACR_NAME --image helloacrtasks:v1 .
+
+# Use serviceprincipal to pull or push images
+
+# Create a container
+az container create \
+    --resource-group $RES_GROUP \
+    --name acr-tasks \
+    --image $ACR_NAME.azurecr.io/helloacrtasks:v1 \
+    --registry-login-server $ACR_NAME.azurecr.io \
+    --registry-username $(az keyvault secret show --vault-name $AKV_NAME --name $ACR_NAME-pull-usr --query value -o tsv) \
+    --registry-password $(az keyvault secret show --vault-name $AKV_NAME --name $ACR_NAME-pull-pwd --query value -o tsv) \
+    --dns-name-label acr-tasks-$ACR_NAME \
+    --query "{FQDN:ipAddress.fqdn}" \
+    --output table
+
+# Watch startup process
+
+az container attach --resource-group $RES_GROUP --name acr-tasks
+
+# Check logs
+az container logs --name MyContainerGroup --resource-group MyResourceGroup
+
+# Delete containers
+az container delete --resource-group $RES_GROUP --name acr-tasks
+
+# To push Images log into ACR
+
+az acr login --name <acrName>
+
+az acr build --registry $ACR_NAME --image helloacrtasks:v1 .
+
+docker push <acrName>.azurecr.io/azure-vote-front:v1
+
+#List Images in ACR
+az acr repository list --name <acrName> --output table
+
+# Show Details of the az container group
+az container show --name MyContainerGroup --resource-group MyResourceGroup
+
+# Remove Image from ACR
+docker rmi myregistry.azurecr.io/samples/nginx
+
+
+#powershell (Create containergroup)
+New-AzContainerGroup -ResourceGroupName myResourceGroup -Name mycontainer -Image mcr.microsoft.com/windows/servercore/iis:nanoserver -OsType Windows -DnsNameLabel aci-demo-win
+
+```
+
+
+**ACR tasks automatically push successfully built images to your registry by default, allowing you to deploy them from your registry immediately.**
 
 https://docs.microsoft.com/en-us/learn/modules/control-and-organize-with-azure-resource-manager/
 
@@ -225,7 +286,51 @@ Enable Diag
 - Storage account is requied for contiuous loggging
 - Logs can be reviewed using either applciation insights, log analytics or azure monitor.
 
-- Deploy code to the webapp.
+```
+Enable Logging using Azure CLI
+
+#enable Config
+az webapp log config  --application-logging true \
+--level verbose --name 
+
+az webapp log show --name <app-name> --resource-group <resource-group-name>
+
+#live Log tailing from cloud shell
+az webapp log tail --name $webapp --resource-group $resourcegroup
+
+#Download log files
+az webapp log download --log-file \<_filename_\>.zip  --resource-group \<_resource group name_\> --name \<_app name_\>
+
+#From local terminal to access log files in appservice
+
+```
+![](2021-10-09-11-51-31.png)
+
+**Deploy code to the webapp.**
+
+```
+#Make a zip file
+az webapp deploy --resource-group <group-name> --name <app-name> --src-path <zip-package-path>
+```
+
+### Web app settings.
+
+ *MySql connection string named connectionstring1 can be accessed as the environment variable MYSQLCONNSTR_connectionString1*
+
+```
+# Set the value using azure CLI
+az webapp config appsettings set --name <app-name> --resource-group <resource-group-name> --settings <setting-name>="<value>"
+
+# List the setting in webapp.
+az webapp config appsettings list --name <app-name> --resource-group <resource-group-name>
+
+# Remove the setting
+az webapp config appsettings delete --name <app-name> --resource-group <resource-group-name> --setting-names {<names>}
+
+```
+
+
+
 
 Functions can be run as their own or it can be run as webapp service plan.
 

@@ -1,0 +1,64 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "storagePrefix": {
+            "type": "string",
+            "metadata": {
+                "description": "description"
+            },
+            "minLength":3,
+            "maxLength":4
+        },
+  "storageName": {
+"type": "string",
+"minLength": 3,
+"maxLength": 24
+  },
+  "storageSKU": {
+"type": "string",
+"defaultValue": "standard_LRS",
+"allowedValues": [
+    "standard_LRS",
+    "standard_GRS"
+]
+
+  },
+  "location": {
+      "type": "string",
+      "metadata": {
+          "description": "description"
+      },
+      "defaultValue": "[resourceGroup().location]"
+  }
+    },
+    "variables": {
+    "uniqueStorageName": "[concat(parameters('storagePrefix'),uniqueString(resourceGroup().id))]"
+
+    },
+    "resources": [
+{
+    "type": "Microsoft.Storage/storageAccounts",
+    "apiVersion": "2021-04-01",
+    "name": "[parameters('storageName')]",
+    "location": "East US",
+     "sku": {
+         "name": "Standard_LRS"
+     },
+     "kind": "StorageV2",
+     "properties": {
+         "supportsHttpsTrafficOnly": "true"
+     }
+
+}
+
+
+    ],
+    "outputs": {
+        "storageEndpoint": {
+            "type": "object",
+            "value":"[reference(variables('uniqueStorageName')).primaryEndpoints]"
+
+        }
+    }
+  }

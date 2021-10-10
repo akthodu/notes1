@@ -73,3 +73,19 @@ public void SignIn()
     }
 }
 ```
+
+
+ ### Account types in microsoft public cloud
+
+ - If you're writing a line-of-business (LOB) application, you can sign in users in your own organization. Such an application is sometimes called single-tenant.
+  
+ -  you can write an application that signs in users: using any organization  users.
+ -  business to consumer application, you can also sign in users with their social identitiesm using AAD B2C.
+  
+  **AUthentication and Authization**
+  -  Authentication is the process of proving tht you are who you say you are(autgn). microsoft uses **openID** **connect** protocol.
+  -  Authorization(authz)- uses **oath** protocol.
+
+App needs **ID** token to identify the user and an **access** token to read the user profile with microsoft graph as the user.
+
+**JWT Token**   - User has to send JWT token for each and every valid request.
