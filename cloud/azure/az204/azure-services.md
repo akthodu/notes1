@@ -62,7 +62,54 @@ Authenticate an API call with a certificate, control the flow based on boolean e
    - Event handlers - The app or service reacting to the event.
 **Event Grid also has support for your own events, using custom topics.**
 
+```
+# Create a custom topic
+az eventgrid topic key list --name <topic-name> --resource-group <resource-group-name>
+
+# Event subscription to the topic
+az eventgrid event-subscription create --name <event-subscription-name> \
+  --resource-group <resource group name> \
+  --topic-name <topic name> \
+  --subject-ends-with engineering \
+  --included-event-type employeeAdded \
+  --endpoint <function endpoint>
+```
+```
+[
+  {
+    "topic": string,
+    "subject": string,   
+    "id": string,
+    "eventType": string,
+    "eventTime": string,
+    "data":{
+      object-unique-to-each-publisher
+    }
+  }
+]
+
+Ex:
+[{
+  "id": "30934",
+  "eventType": "employeeAdded",
+  "subject": "department/engineering",
+  "eventTime": "2017-12-14T10:10:20+00:00",
+  "data":{
+    "employeeId": "14",
+    "employeeName": "Nigel Tufnel",
+    "employeeEmail": "nigel@contoso.com",
+    "manager": "itmanager@contoso.com",
+    "managerId": "4"
+  }
+}]
+```
+
+
 ![](2021-09-29-12-33-11.png)
+
+
+
+
 
 
   # **Event hub**

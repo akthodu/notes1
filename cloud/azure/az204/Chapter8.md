@@ -82,8 +82,19 @@ private static Lazy<ConnectionMultiplexer> CreateConnection()
 
 ###
 IDatabase  cache = connection.GetDatabase();
+
+#String
 cache.StringSet("Message","This is custom Message")
+#Object
+cache.Stringset("user",JSONConvert.SerliazeObject(obj));
+
+#Getter
 cache.StringGet("Message");
+JsonConvert.DeserliazeObject<user>(cache.stringGet("user"));
+
+
+
+
 
 ```
 
