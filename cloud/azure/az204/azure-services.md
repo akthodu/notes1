@@ -64,7 +64,12 @@ Authenticate an API call with a certificate, control the flow based on boolean e
 
 ```
 # Create a custom topic
-az eventgrid topic key list --name <topic-name> --resource-group <resource-group-name>
+az eventgrid topic create --resource-group $myResourceGroup --name $myTopic --location westus2
+
+# Retrieve endpoint and key to use when publishing to the topic
+endpoint=$(az eventgrid topic show --name $myTopic -g $myResourceGroup --query "endpoint" --output tsv)
+key=$(az eventgrid topic key list --name $myTopic -g $myResourceGroup --query "key1" --output tsv)
+
 
 # Event subscription to the topic
 az eventgrid event-subscription create --name <event-subscription-name> \
@@ -113,6 +118,16 @@ Ex:
 
 
   # **Event hub**
+
+An Event Hubs namespace is a management container for event hubs (or topics, in Kafka parlance)
+
+Publish an event via AMQP 1.0, the Kafka protocol, or HTTPS. 
+
+Publisher URL:
+**https://<my namespace>.servicebus.windows.net/<event hub name>/publishers/<my publisher name>
+**
+![](2021-10-10-08-44-30.png)
+
 -  Protocol HTTP and AMQP
 -  Code Send events to and receive events from Azure Event Hubs - .NET 
 -  
@@ -122,6 +137,73 @@ https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-dotnet-standard-get
 
 ![](2021-09-30-11-41-19.png)
 
+
+**Event Hub Capture**
+
+Event Hubs Capture enables you to automatically capture the streaming data in Event Hubs and save it to your choice of either a Blob storage account, or an Azure Data Lake Storage account. You can enable capture from the Azure portal, and specify a minimum size and time window to perform the capture.
+
+![](2021-10-10-08-52-26.png)
+
+![](2021-10-10-09-00-00.png)
+
+```
+# Create an Event Hubs namespace. Specify a name for the Event Hubs namespace.
+az eventhubs namespace create --name <Event Hubs namespace> --resource-group <resource group name> -l <region, for example: East US>
+
+# Create an event hub. Specify a name for the event hub. 
+az eventhubs eventhub create --name <event hub name> --resource-group <resource group name> --namespace-name <Event Hubs namespace>
+
+```
+Programming Eventhub
+
+
+```
+#packages
+using System;
+using System.Text;
+using System.Threading.Tasks;
+using Azure.Messaging.EventHubs;
+using Azure.Messaging.EventHubs.Producer;
+// connection string to the Event Hubs namespace
+private const string connectionString = "<EVENT HUBS NAMESPACE - CONNECTION STRING>";
+
+// name of the event hub
+private const string eventHubName = "<EVENT HUB NAME>";
+
+// number of events to be sent to the event hub
+    private const int numOfEvents = 3;
+    static EventHubProducerClient producerClient; 
+static async Task Main()
+    {
+        // Create a producer client that you can use to send events to an event hub
+        producerClient = new EventHubProducerClient(connectionString, eventHubName);
+
+        // Create a batch of events 
+        using EventDataBatch eventBatch = await producerClient.CreateBatchAsync();
+
+        for (int i = 1; i <= numOfEvents; i++)
+        {
+            if (! eventBatch.TryAdd(new EventData(Encoding.UTF8.GetBytes($"Event {i}"))))
+            {
+                // if it is too large for the batch
+                throw new Exception($"Event {i} is too large for the batch and cannot be sent.");
+            }
+        }
+
+        try
+        {
+            // Use the producer client to send the batch of events to the event hub
+            await producerClient.SendAsync(eventBatch);
+            Console.WriteLine($"A batch of {numOfEvents} events has been published.");
+        }
+        finally
+        {
+            await producerClient.DisposeAsync();
+        }
+    }
+
+
+```
 
 
 # Application Messaging
